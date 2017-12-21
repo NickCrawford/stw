@@ -1,0 +1,59 @@
+<template>
+  <div class="onboarding-container">
+    <p @click="addStep">Active Step: {{ activeStep }}</p>
+
+    <!-- Step 0: Organization Name -->
+    <div class="text-prompt-container"  v-if="activeStep == 0">
+      <h1>Name your movement.</h1>
+      <h2>Define your mission.</h2>
+    </div>
+    <div class="form-group" v-if="activeStep == 0">
+      <label for="organization-name">Organization Name</label>
+      <input v-model="organizationName" name="organization-name">
+    </div>
+
+    <!-- Step 1: Mission Statement -->
+    <div class="text-prompt-container"  v-if="activeStep == 1">
+      <h1>Define your mission.</h1>
+      <h2>What is the purpose of {{ null || 'your organization?' }}</h2>
+    </div>
+
+
+  </div>
+</template>
+
+<script>
+export default {
+
+  name: 'OnBoarding',
+
+  components: {},
+
+  data() {
+    return {
+      activeStep: 0,
+    };
+  },
+
+  computed: {
+    organizationName: {
+      get() {
+        return this.$store.state.organization.name;
+      },
+      set(value) {
+        this.$store.commit('updateOrganizationName', value);
+      },
+    },
+  },
+
+  methods: {
+    addStep() {
+      this.activeStep += 1;
+    },
+  },
+
+};
+</script>
+
+<style lang="css">
+</style>

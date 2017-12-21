@@ -1,0 +1,33 @@
+{
+  name: "Young Democratic Socialists for America",
+  members: [
+    {
+      name: "Ben Holland",
+      email: "bhollan5@kent.edu",
+      role: "admin",
+    }
+  ],
+  milestones: [
+    {
+      type: "event",
+      name: "DSA Weekly Meeting",
+      date_time: "2017-12-19T16:06:38.856Z",
+    },
+    
+  ],
+  "external_links": [
+    {
+      link_name: "Facebook",
+      link_url: "https://facebook.com/thedrawingblanks",
+    },
+    {
+      link_name: "Twitter",
+      link_url: "https://twitter.com/dsa",
+    },
+    {
+      link_name: "Local Website",
+      link_url: "https://dsa.org",
+    },
+  ],
+
+}
