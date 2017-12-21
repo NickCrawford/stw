@@ -1,28 +1,23 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import firestore from './firestore';
+import Firebase from 'firebase';
+import 'firebase/firestore';
+import 'babel-polyfill';
+
+import firebaseConfig from '../config';
+// Modules
+import organizations from './modules/organizations';
 
 Vue.use(Vuex);
+Firebase.initializeApp(firebaseConfig);
+
+const state = {
+  db: Firebase.firestore(),
+};
 
 export default new Vuex.Store({
-  state: {
-    todos: []
+  state,
+  modules: {
+    organizations,
   },
-  mutations: {
-    watchTodos(state, todos) {
-      state.todos = todos;
-    },
-    removeTodo(state, todo) {
-      state.todos.splice(state.todos.indexOf(todo), 1);
-    }
-  },
-  actions: {
-    addTodo({ commit }, text) {
-      firestore.addTodo(text);
-    },
-    removeTodo({ commit }, todo) {
-      firestore.removeTodo(todo.id);
-      commit('removeTodo', todo);
-    }
-  }
 });

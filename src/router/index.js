@@ -69,7 +69,6 @@ router.beforeEach((to, from, next) => {
   // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  console.log(to, from);
   if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
   else if (!requiresAuth && currentUser) next('/dashboard');
   else next();

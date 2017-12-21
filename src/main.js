@@ -5,20 +5,21 @@ import Firebase from 'firebase';
 
 import App from './App';
 import router from './router';
-import firebaseConfig from './config';
+import store from './store';
 
 Vue.config.productionTip = false;
 
 let app;
 
 // Initialize Firebase
-Firebase.initializeApp(firebaseConfig);
+// Firebase.initializeApp(firebaseConfig); // Initialized in 'store/index.js'
 Firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     /* eslint-disable no-new */
     app = new Vue({
       el: '#app',
       router,
+      store,
       template: '<App/>',
       components: { App },
     });
