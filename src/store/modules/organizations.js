@@ -2,11 +2,12 @@
 
 const state = {
   all: {},
+  allIds: [],
   currentOrganization: 'osFbH2crFCagKZItOxmx',
 };
 
 const mutations = {
-  SET_ORGANIZATION(state, { org }) {
+  UPDATE_ORGANIZATION(state, { org }) {
     const data = org.data();
     state.all = {
       ...state.all,
@@ -30,7 +31,7 @@ const actions = {
     const organizationRef = rootState.db.collection('organizations');
     const organizations = await organizationRef.get();
 
-    organizations.forEach(org => commit('SET_ORGANIZATION', { org })); // todo check for failure with try, catch
+    organizations.forEach(org => commit('UPDATE_ORGANIZATION', { org })); // todo check for failure with try, catch
   },
 };
 

@@ -2,6 +2,7 @@
   <main class="dashboard">
     <main>
       <p>{{ organizations }}</p>
+      <p><b>User:</b><br/>{{ currentUser }}</p>
     </main>
     <init/>
     <router-view/>
@@ -11,29 +12,37 @@
 <script>
 import { mapState } from 'vuex';
 
-import Logout from '@/components/Auth/Logout';
 import Init from '@/components/Init';
 
 export default {
 
   name: 'Dashboard',
 
-  components: { Logout, Init },
+  components: { Init },
 
   data() {
-    return {
-
-    };
+    return {};
   },
 
   computed: {
     ...mapState({
       organizations: state => state.organizations.all,
+      currentOrganization: state => state.organizations.currentOrganization,
+      currentUser: state => state.users.user,
     }),
   },
 
   created() {
-    // todo: LOAD MESSAGES
+    this.$store.state.db.collection('organizations').doc(this.currentOrganization).onSnapshot((org) => {
+      const source = org.metadata.hasPendingWrites ? 'Local' : 'Server';
+
+      console.log(`Source ${source}`);
+      console.log('Org', org, org.data());
+
+      if (org && org.data()) {
+        this.$store.commit('organizations/UPDATE_ORGANIZATION', { org });
+      }
+    });
   },
 };
 </script>

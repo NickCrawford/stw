@@ -7,6 +7,7 @@ import 'babel-polyfill';
 import firebaseConfig from '../config';
 // Modules
 import organizations from './modules/organizations';
+import users from './modules/users';
 
 Vue.use(Vuex);
 Firebase.initializeApp(firebaseConfig);
@@ -19,5 +20,6 @@ export default new Vuex.Store({
   state,
   modules: {
     organizations,
+    users,
   },
 });
