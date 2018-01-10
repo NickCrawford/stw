@@ -30,6 +30,7 @@ export default {
       .then((user) => {
         console.log('Account has been created');
         console.log(user);
+        this.$router.replace({ name: 'Dashboard' });
       })
       .catch((err) => {
         console.log(`Oops... ${err}`);
