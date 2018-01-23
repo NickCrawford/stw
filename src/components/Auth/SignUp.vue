@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import firebase from 'firebase';
 
 export default {
 
@@ -26,10 +25,8 @@ export default {
 
   methods: {
     signUp() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      .then((user) => {
-        console.log('Account has been created');
-        console.log(user);
+      this.$store.dispatch('users/signUp', { email: this.email, password: this.password })
+      .then(() => {
         this.$router.replace({ name: 'Dashboard' });
       })
       .catch((err) => {

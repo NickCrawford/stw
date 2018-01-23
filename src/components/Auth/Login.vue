@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import Firebase from 'firebase';
 
 export default {
 
@@ -26,7 +25,7 @@ export default {
 
   methods: {
     logIn() {
-      Firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      this.$store.dispatch('users/logIn', { email: this.email, password: this.password })
       .then(() => {
         console.log('You\'ve signed in!');
         this.$router.replace({ name: 'Dashboard' });

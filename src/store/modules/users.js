@@ -2,7 +2,7 @@
 import Firebase from 'firebase';
 
 const state = {
-  user: 'hi',
+  user: null,
 };
 
 const mutations = {
@@ -12,16 +12,51 @@ const mutations = {
 };
 
 const getters = {
-  getUser(state) {
+  user(state) {
     console.log('Getting User', state, state.user);
     return state.user;
   },
 };
 
 const actions = {
-  setUser({ rootState }) {
-    rootState.commit('SET_USER');
+  setUser({ commit }) {
+    commit('SET_USER');
   },
+
+  logIn({ commit }, user) {
+    return Firebase.auth()
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then((newUser) => {
+        commit('SET_USER', newUser);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  },
+
+  logOut({ commit }) {
+    return Firebase.auth()
+      .signOut()
+      .then(() => {
+        commit('SET_USER');
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  },
+
+  signUp({ commit }, user) {
+    return Firebase.auth()
+      .createUserWithEmailAndPassword(user.email, user.password)
+      .then((newUser) => {
+        commit('SET_USER', newUser);
+      })
+      .catch((error) => {
+        console.log('error signing up', error.message);
+        throw error;
+      });
+  },
+
 };
 
 export default {

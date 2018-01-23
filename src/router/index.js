@@ -5,8 +5,8 @@ import Firebase from 'firebase';
 import HelloWorld from '@/components/HelloWorld';
 import Dashboard from '@/components/Dashboard';
 import Auth from '@/components/Auth/Auth';
-import Logout from '@/components/Auth/Logout';
 import OnBoarding from '@/components/OnBoarding';
+import OrganizationList from '@/components/OrganizationList';
 
 Vue.use(Router);
 
@@ -23,13 +23,18 @@ const router = new Router({
       component: HelloWorld,
     },
     {
+      path: '/orgs',
+      name: 'orgs',
+      component: OrganizationList,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       children: [
         {
           path: '',
-          component: Logout,
           meta: { requiresAuth: true },
         },
         {

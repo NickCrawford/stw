@@ -14,6 +14,8 @@ Firebase.initializeApp(firebaseConfig);
 
 const state = {
   db: Firebase.firestore(),
+  loading: false,
+  error: null,
 };
 
 export default new Vuex.Store({

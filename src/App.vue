@@ -10,6 +10,7 @@ export default {
 
   created() {
     console.log(this.$store.state.db);
+    this.$store.dispatch('users/setUser');
   },
 };
 </script>

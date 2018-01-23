@@ -9,7 +9,7 @@
     </div>
     <div class="form-group" v-if="activeStep == 0">
       <label for="organization-name">Organization Name</label>
-      <input v-model="organizationName" name="organization-name">
+      <!-- <input v-model="org" name="organization-name"> -->
     </div>
 
     <!-- Step 1: Mission Statement -->
@@ -36,15 +36,22 @@ export default {
   },
 
   computed: {
-    organizationName: {
+    org: {
       get() {
-        return this.$store.state.organization.name;
+        return this.$store.state.organizations.currentOrganization;
       },
       set(value) {
-        this.$store.commit('updateOrganizationName', value);
+        this.$store.commit('UPDATE_ORGANIZATION_NAME', { orgId: this.org.id, name: value });
       },
     },
   },
+
+  // computed: {
+
+  //   ...mapState({
+  //     org: state => state.organizations.currentOrganization,
+  //   }),
+  // },
 
   methods: {
     addStep() {

@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import Firebase from 'firebase';
-
 export default {
 
   name: 'Logout',
@@ -15,7 +13,7 @@ export default {
 
   methods: {
     logOut() {
-      Firebase.auth().signOut()
+      this.$store.dispatch('users/logOut')
       .then(() => {
         console.log('You\'ve signed out!');
         this.$router.replace({ name: 'Login' });
