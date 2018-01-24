@@ -34,6 +34,10 @@ const actions = {
       });
   },
 
+  autoLogIn ({commit}, payload) {
+    commit('SET_USER', { id: payload.uid })
+  },
+
   logOut({ commit }) {
     return Firebase.auth()
       .signOut()

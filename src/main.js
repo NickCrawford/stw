@@ -7,21 +7,26 @@ import App from './App';
 import router from './router';
 import store from './store';
 
+
+import firebaseConfig from './config';
+
 Vue.config.productionTip = false;
 
-let app;
+Firebase.initializeApp(firebaseConfig);
 
-// Initialize Firebase
-// Firebase.initializeApp(firebaseConfig); // Initialized in 'store/index.js'
-Firebase.auth().onAuthStateChanged(() => {
-  if (!app) {
-    /* eslint-disable no-new */
-    app = new Vue({
-      el: '#app',
-      router,
-      store,
-      template: '<App/>',
-      components: { App },
-    });
-  }
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App),
+
+  created () {
+    this.$store.dispatch('initializeDatabase');
+    Firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('users/autoLogIn', user);
+      }
+    })
+    this.$store.dispatch('organizations/loadOrganizations');
+  },
 });

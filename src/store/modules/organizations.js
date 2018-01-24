@@ -33,34 +33,34 @@ const actions = {
   // This is the same as putting context.commit as the parameter
   loadOrganizations({ rootState, commit }) { 
     console.log('Load organization');
-    commit('SET_LOADING', true);
+    commit('SET_LOADING', true, { root: true }); // Call SET_LOADING mutation on root state.
 
     rootState.db.collection('organizations').get()
-    .then((doc) => {
-      if (doc.exists) {
+    .then((querySnapshot) => {
+
+      const organizations = [];
+
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+
         const obj = doc.data();
 
-        const organizations = [];
+        organizations.push({
+          id: doc.id,
+          title: obj.title,
+          description: obj.description,
+          imageUrl: obj.imageUrl,
+          dateCreated: obj.dateCreated,
+          // creatorId: obj.creatorId,
+        });
+      });
 
-        for (const key in obj) {
-          organizations.push({
-            id: key,
-            title: obj[key].title,
-            description: obj[key].description,
-            imageUrl: obj[key].imageUrl,
-            dateCreated: obj[key].dateCreated,
-            // creatorId: obj[key].creatorId,
-          });
-        }
-        commit('SET_LOADED_ORGANIZATIONS', organizations);
-        commit('SET_LOADING', false);
-      } else {
-        // doc.data() will be undefined in this case
-        console.log('No such document!');
-      }
+      commit('SET_LOADED_ORGANIZATIONS', organizations);
+      commit('SET_LOADING', false, { root: true });
     })
     .catch((error) => {
-      commit('SET_LOADING', false);
+      commit('SET_LOADING', false, { root: true });
       console.log('Error getting document:', error);
     });
   },

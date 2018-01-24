@@ -8,15 +8,17 @@ import Auth from '@/components/Auth/Auth';
 import OnBoarding from '@/components/OnBoarding';
 import OrganizationList from '@/components/OrganizationList';
 
+import AuthGuard from './auth-guard'
+
 Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
   routes: [
-    {
-      path: '*',
-      redirect: '/',
-    },
+    // {
+    //   path: '*',
+    //   redirect: '/',
+    // },
     {
       path: '/',
       name: 'HelloWorld',
@@ -24,9 +26,9 @@ const router = new Router({
     },
     {
       path: '/orgs',
-      name: 'orgs',
+      name: 'OrganizationList',
       component: OrganizationList,
-      meta: { requiresAuth: true },
+      beforeEnter: AuthGuard
     },
     {
       path: '/dashboard',
@@ -35,7 +37,7 @@ const router = new Router({
       children: [
         {
           path: '',
-          meta: { requiresAuth: true },
+          beforeEnter: AuthGuard
         },
         {
           // Auth will be rendered inside User's <router-view>
@@ -61,7 +63,7 @@ const router = new Router({
           name: 'Start',
           path: 'start',
           component: OnBoarding,
-          meta: { requiresAuth: true },
+          beforeEnter: AuthGuard
         },
       ],
     },
@@ -69,15 +71,16 @@ const router = new Router({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  // Get the current user from Firebase. If no-one is logged in, it returns 'null'
-  const currentUser = Firebase.auth().currentUser;
-  // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+// router.beforeEach((to, from, next) => {
+//   console.log(`to: ${to.name}, from: ${from.name}`);
+//   // Get the current user from Firebase. If no-one is logged in, it returns 'null'
+//   const currentUser = Firebase.auth().currentUser;
+//   // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
-  else if (!requiresAuth && currentUser) next('/dashboard');
-  else next();
-});
+//   if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
+//   else if (!requiresAuth && currentUser) next('/dashboard');
+//   else next();
+// });
 
 export default router;

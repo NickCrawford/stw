@@ -9,7 +9,7 @@ export default {
   name: 'app',
 
   created() {
-    console.log(this.$store.state.db);
+    console.log('App.vue', this.$store.state.db);
     this.$store.dispatch('users/setUser');
   },
 };
