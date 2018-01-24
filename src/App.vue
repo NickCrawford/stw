@@ -8,9 +8,10 @@
 export default {
   name: 'app',
 
-  created() {
-    console.log('App.vue', this.$store.state.db);
-    this.$store.dispatch('users/setUser');
+  computed: {
+    userIsAuthenticated () {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
   },
 };
 </script>

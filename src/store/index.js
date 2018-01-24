@@ -32,6 +32,10 @@ const mutations = {
 const actions = {
   initializeDatabase({ state }) {
     state.db = Firebase.firestore();
+  },
+
+  clearError ({commit}) {
+    commit('CLEAR_ERROR')
   }
 };
 

@@ -15,10 +15,6 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   routes: [
-    // {
-    //   path: '*',
-    //   redirect: '/',
-    // },
     {
       path: '/',
       name: 'HelloWorld',
@@ -28,7 +24,7 @@ const router = new Router({
       path: '/orgs',
       name: 'OrganizationList',
       component: OrganizationList,
-      beforeEnter: AuthGuard
+      beforeCreated: AuthGuard
     },
     {
       path: '/dashboard',
@@ -63,7 +59,7 @@ const router = new Router({
           name: 'Start',
           path: 'start',
           component: OnBoarding,
-          beforeEnter: AuthGuard
+          beforeCreated: AuthGuard
         },
       ],
     },
@@ -73,14 +69,14 @@ const router = new Router({
 
 // router.beforeEach((to, from, next) => {
 //   console.log(`to: ${to.name}, from: ${from.name}`);
-//   // Get the current user from Firebase. If no-one is logged in, it returns 'null'
-//   const currentUser = Firebase.auth().currentUser;
-//   // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   // // Get the current user from Firebase. If no-one is logged in, it returns 'null'
+//   // const currentUser = Firebase.auth().currentUser;
+//   // // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
+//   // const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-//   if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
-//   else if (!requiresAuth && currentUser) next('/dashboard');
-//   else next();
+//   // if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
+//   // else if (!requiresAuth && currentUser) next('/dashboard');
+//   next();
 // });
 
 export default router;

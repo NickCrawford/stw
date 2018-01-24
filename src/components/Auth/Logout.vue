@@ -13,7 +13,7 @@ export default {
 
   methods: {
     logOut() {
-      this.$store.dispatch('users/logOut')
+      this.$store.dispatch('users/logout')
       .then(() => {
         console.log('You\'ve signed out!');
         this.$router.replace({ name: 'Login' });

@@ -26,6 +26,12 @@ export default {
   data() {
     return {};
   },
+
+  created() {
+    if (this.$store.getters['users/userIsAuthenticated']) {
+      this.$router.push({ name: 'Dashboard' });
+    }
+  },
 };
 </script>
 

@@ -43,36 +43,13 @@ export default {
     },
 
     user() {
+      console.log('user:', this.$store.getters['users/user']);
       return this.$store.getters['users/user'];
     },
-  },
 
-  created() {
-    // Firebase.auth().onAuthStateChanged((user) => {
-    //   console.log('Auth Changed', user);
-    //   if (user) {
-    //     // If the user is signed in, watch for changes in the organization collection
-    //     this.$store.state.db.collection('organizations').doc(this.currentOrganization).onSnapshot((org) => {
-    //       const source = org.metadata.hasPendingWrites ? 'Local' : 'Server';
-
-    //       console.log(`Source ${source}`);
-    //       console.log('Org', org, org.data());
-
-    //       if (org && org.data()) {
-    //         this.$store.commit('organizations/UPDATE_ORGANIZATION', { org });
-    //       }
-    //     }, (error) => {
-    //       console.log('err', error);
-    //     });
-    //   } else {
-    //     // If the user isn't signed in, un subscribe from watching changes
-    //     console.log('db', this.$store.state);
-    //     this.$store.state.db.collection('organizations')
-    //     .onSnapshot(() => {}); // Unsubscribe from changes
-
-    //     console.log('no user signed in unsubbing');
-    //   }
-    // });
+    userIsAuthenticated() {
+      return this.$store.getters['users/userIsAuthenticated'];
+    },
   },
 };
 </script>

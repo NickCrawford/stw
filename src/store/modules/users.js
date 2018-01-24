@@ -6,8 +6,8 @@ const state = {
 };
 
 const mutations = {
-  SET_USER(state) {
-    state.user = Firebase.auth().currentUser;
+  SET_USER(state, payload) {
+    state.user = payload;
   },
 };
 
@@ -16,50 +16,60 @@ const getters = {
     console.log('Getting User', state, state.user);
     return state.user;
   },
+
+  userIsAuthenticated () {
+    return state.user !== null && state.user !== undefined
+  }
 };
 
 const actions = {
-  setUser({ commit }) {
-    commit('SET_USER');
-  },
-
-  logIn({ commit }, user) {
-    return Firebase.auth()
-      .signInWithEmailAndPassword(user.email, user.password)
-      .then((newUser) => {
-        commit('SET_USER', newUser);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  },
 
   autoLogIn ({commit}, payload) {
+    console.log('Auto log in ', payload);
     commit('SET_USER', { id: payload.uid })
   },
 
-  logOut({ commit }) {
-    return Firebase.auth()
-      .signOut()
-      .then(() => {
-        commit('SET_USER');
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  logout ({commit}) {
+    Firebase.auth().signOut()
+    commit('SET_USER', null)
   },
 
-  signUp({ commit }, user) {
-    return Firebase.auth()
-      .createUserWithEmailAndPassword(user.email, user.password)
-      .then((newUser) => {
-        commit('SET_USER', newUser);
-      })
-      .catch((error) => {
-        console.log('error signing up', error.message);
-        throw error;
-      });
+  signUserUp ({commit}, payload) {
+    commit('SET_LOADING', true)
+    commit('CLEAR_ERROR', null, { root: true });
+    Firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+    .then((user) => {
+      commit('SET_LOADING', false, { root: true })
+      const newUser = {
+        id: user.uid,
+      }
+      commit('SET_USER', newUser);
+    })
+    .catch((error) => {
+      commit('SET_LOADING', false, { root: true });
+      commit('SET_ERROR', error, { root: true });
+      console.log(error)
+    })
   },
+
+  signUserIn ({commit}, payload) {
+    commit('SET_LOADING', true, { root: true })
+    commit('CLEAR_ERROR', null, { root: true })
+    Firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+    .then((user) => {
+      commit('SET_LOADING', false, { root: true })
+      const newUser = {
+        id: user.uid,
+      }
+      commit('SET_USER', newUser)
+    })
+    .catch((error) => {
+      commit('SET_LOADING', false, { root: true })
+      commit('SET_ERROR', error, { root: true })
+      console.log(error)
+    })
+  },
+
 
 };
 

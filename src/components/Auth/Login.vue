@@ -4,7 +4,7 @@
     <input type="email" placeholder="Email" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
     <div class="flex-row">
-      <button @click="logIn">Continue</button>
+      <button @click="onSignIn">Continue</button>
       <p>New to Save the World? <router-link :to="{ name: 'SignUp' }">Sign Up</router-link></p>
     </div>
   </div>
@@ -22,17 +22,27 @@ export default {
       password: '',
     };
   },
-
+  computed: {
+    user () {
+      return this.$store.getters['users/user'];
+    },
+    error () {
+      return this.$store.getters.error
+    },
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
+  watch: {
+    user (value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push({ name: 'Dashboard' });
+      }
+    }
+  },
   methods: {
-    logIn() {
-      this.$store.dispatch('users/logIn', { email: this.email, password: this.password })
-      .then(() => {
-        console.log('You\'ve signed in!');
-        this.$router.replace({ name: 'Dashboard' });
-      })
-      .catch((err) => {
-        console.log(`Oops... ${err}`);
-      });
+    onSignIn () {
+      this.$store.dispatch('users/signUserIn', {email: this.email, password: this.password})
     },
   },
 };
