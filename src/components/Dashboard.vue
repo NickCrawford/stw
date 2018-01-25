@@ -37,6 +37,10 @@ export default {
     };
   },
 
+  created() {
+    this.$store.dispatch('organizations/loadOrganizations');
+  },
+
   computed: {
     org() {
       return this.$store.getters['organizations/loadedOrganization'];

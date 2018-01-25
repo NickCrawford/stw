@@ -25,10 +25,10 @@ const unsubscribe = Firebase.initializeApp(firebaseConfig).auth().onAuthStateCha
       Firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // If firebase says the user is already logged in when the app loads, put that user into the store
-          this.$store.dispatch('users/autoLogIn', user); 
+          // this.$store.dispatch('users/autoLogIn', user); 
           
           // Load all organizations into store
-          this.$store.dispatch('organizations/loadOrganizations'); 
+          // this.$store.dispatch('organizations/loadOrganizations'); 
         }
       })
     },

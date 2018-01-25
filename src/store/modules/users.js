@@ -13,7 +13,7 @@ const mutations = {
 
 const getters = {
   user(state) {
-    console.log('Getting User', state, state.user);
+    // console.log('Getting User', state, state.user);
     return state.user;
   },
 
@@ -25,7 +25,7 @@ const getters = {
 const actions = {
 
   autoLogIn ({commit}, payload) {
-    console.log('Auto log in ', payload);
+    // console.log('Auto log in ', payload);
     commit('SET_USER', { id: payload.uid })
   },
 

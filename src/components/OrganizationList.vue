@@ -30,6 +30,10 @@ export default {
     },
   },
 
+  created() {
+    this.$store.dispatch('organizations/loadOrganizations'); 
+  },
+
   methods: {
 
   },

@@ -17,7 +17,6 @@ const mutations = {
 const actions = {
   // This is the same as putting context.commit as the parameter
   loadOrganizations({ rootState, commit }) { 
-    console.log('Load organization');
     commit('SET_LOADING', true, { root: true }); // Call SET_LOADING mutation on root state.
 
     rootState.db.collection('organizations').get()
@@ -27,7 +26,7 @@ const actions = {
 
       querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
 
         const obj = doc.data();
 
@@ -50,8 +49,6 @@ const actions = {
   },
 
   createOrganization({ rootState, commit, rootGetters }, payload) {
-    console.log('Create organization', rootGetters['users/user']);
-
     const currentUser = rootGetters['users/user'];
 
     const organization = {
@@ -97,7 +94,7 @@ const getters = {
     })
   },
   loadedOrganization (state) {
-    console.log('Getting org:', state.currentOrganizationId);
+    // console.log('Getting org:', state.currentOrganizationId);
     return state.loadedOrganizations.find((org) => {
       return org.id === state.currentOrganizationId;
     })
