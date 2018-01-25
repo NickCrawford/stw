@@ -1,11 +1,11 @@
 <template>
   <main class="dashboard">
     <main v-if="user">
-      <h1>Secret Developer Menu:</h1>
+      <h1>Dashboard:</h1>
       <init/>
       <logout/>
       <br>
-      <h2>Current Organization</h2>
+      <h2>Current Organization</h2><router-link :to="{ name: 'OrganizationList' }">Show All</router-link>
       <p>{{ org }}</p>
       <br>
       <h2>User:</h2>

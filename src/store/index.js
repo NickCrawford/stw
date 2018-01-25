@@ -9,7 +9,6 @@ import organizations from './modules/organizations';
 import users from './modules/users';
 
 Vue.use(Vuex);
-// Firebase.initializeApp(firebaseConfig);
 
 const state = {
   db: null,
@@ -26,20 +25,20 @@ const mutations = {
   },
   CLEAR_ERROR (state) {
     state.error = null;
+  },
+  INITIALIZE_DATABASE (state) {
+    state.db = Firebase.firestore();
   }
 };
 
 const actions = {
-  initializeDatabase({ state }) {
-    state.db = Firebase.firestore();
-  },
 
   clearError ({commit}) {
     commit('CLEAR_ERROR')
   }
 };
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
   state,
   mutations,
   actions,

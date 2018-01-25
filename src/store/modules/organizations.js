@@ -1,23 +1,8 @@
 /* eslint-disable no-shadow */
 
 const state = {
-  loadedOrganizations: [{
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
-    id: 'afajfjadfaadfa323',
-    title: 'Ocean Motion',
-    dateCreated: new Date(),
-    location: 'Kent, OH',
-    mission: 'We save the world by promoting ocean conservation at Kent State',
-  },
-  {
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg',
-    id: 'afajfjadfaadfa324',
-    title: 'DSA',
-    dateCreated: new Date(),
-    location: 'Kent, OH',
-    description: 'We save the world by being democratic',
-  }],
-  currentOrganizationId: 'afajfjadfaadfa323',
+  loadedOrganizations: [],
+  currentOrganizationId: 'P6EzKugvHCBwekf44diy',
 };
 
 const mutations = {
@@ -48,9 +33,8 @@ const actions = {
 
         organizations.push({
           id: doc.id,
-          title: obj.title,
-          description: obj.description,
-          imageUrl: obj.imageUrl,
+          name: obj.name,
+          mission: obj.mission,
           dateCreated: obj.dateCreated,
           // creatorId: obj.creatorId,
         });
@@ -65,16 +49,16 @@ const actions = {
     });
   },
 
-  createOrganizations({ rootState, commit, getters }, payload) {
-    console.log('Create organization');
+  createOrganization({ rootState, commit, rootGetters }, payload) {
+    console.log('Create organization', rootGetters['users/user']);
+
+    const currentUser = rootGetters['users/user'];
 
     const organization = {
-      title: payload.title,
-      location: payload.location,
-      imageUrl: payload.imageUrl,
-      description: payload.description,
-      dateCreated: payload.dateCreated.toISOString(),
-      // creatorId: getters.user.id
+      name: payload.name,
+      mission: payload.mission,
+      dateCreated: new Date().toISOString(),
+      creatorId: currentUser.id
     };
 
     rootState.db.collection('organizations').add(organization)
@@ -90,11 +74,9 @@ const actions = {
     });
   },
 
-  seed({ rootState }) {
-    const organizationRef = rootState.db.collection('organizations');
-
-    organizationRef.doc('osFbH2crFCagKZItOxmx').set({
-      name: 'Ocean Motion',
+  seed({ dispatch }) {
+    dispatch('createOrganization', {
+      name: 'New Organization',
       mission: 'To save the world!',
     });
   },

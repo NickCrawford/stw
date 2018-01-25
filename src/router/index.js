@@ -9,6 +9,7 @@ import OnBoarding from '@/components/OnBoarding';
 import OrganizationList from '@/components/OrganizationList';
 
 import AuthGuard from './auth-guard'
+// import { store } from '../store'
 
 Vue.use(Router);
 
@@ -24,7 +25,8 @@ const router = new Router({
       path: '/orgs',
       name: 'OrganizationList',
       component: OrganizationList,
-      beforeCreated: AuthGuard
+      // meta: { requiresAuth: true },
+      beforeEnter: AuthGuard
     },
     {
       path: '/dashboard',
@@ -33,6 +35,7 @@ const router = new Router({
       children: [
         {
           path: '',
+          // meta: { requiresAuth: true },
           beforeEnter: AuthGuard
         },
         {
@@ -59,24 +62,13 @@ const router = new Router({
           name: 'Start',
           path: 'start',
           component: OnBoarding,
-          beforeCreated: AuthGuard
+          // meta: { requiresAuth: true },
+          beforeEnter: AuthGuard
         },
       ],
     },
 
   ],
 });
-
-// router.beforeEach((to, from, next) => {
-//   console.log(`to: ${to.name}, from: ${from.name}`);
-//   // // Get the current user from Firebase. If no-one is logged in, it returns 'null'
-//   // const currentUser = Firebase.auth().currentUser;
-//   // // Find out if the route we're going to has the 'requiresAuth' meta field set to true.
-//   // const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-//   // if (requiresAuth && !currentUser) next('/dashboard/login'); // Go to login screen if user isn't logged in and tries to access a route that require authentication
-//   // else if (!requiresAuth && currentUser) next('/dashboard');
-//   next();
-// });
 
 export default router;
